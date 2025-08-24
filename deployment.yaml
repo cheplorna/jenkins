@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: java-microservice
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: "opentelemetry-operator-system/elastic-instrumentation"
+      labels:
+        app.kubernetes.io/name: java-microservice
+    spec:
+      containers:
+      - name: java-microservice-container
+        image: 357415106205.dkr.ecr.us-east-1.amazonaws.com/test:java-latest
+        ports:
+        - containerPort: 4567
